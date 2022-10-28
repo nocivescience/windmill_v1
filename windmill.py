@@ -97,7 +97,7 @@ class WindmillScene(Scene):
         #con esto cambia de punto el windmill
         if change_pivot_at_end:
             windmill.pivot=new_pivot
-        return [self.get_hit_flash(new_pivot)], run_time
+        return [self.get_hit_flash(new_pivot),self.get_hit_indicate(new_pivot), self.get_hit_circle(new_pivot)], run_time
     def get_hit_flash(self,point):
         color_flash=it.cycle(self.CONFIG['colors_flash'])
         flash=Flash(
@@ -112,6 +112,13 @@ class WindmillScene(Scene):
             submob.reverse_points()
             submob.set_color(next(color_flash))
         return Uncreate(flash.mobject,run_time=0.5,lag_ratio=0)
+    def get_hit_indicate(self,point):
+        square=Square().move_to(point)
+        return Uncreate(square)
+    def get_hit_circle(self,point):
+        circle=Circle().move_to(point)
+        triangle=Triangle().move_to(point)
+        return Uncreate(circle)
     def switch_pivots(self,windmill):
         self.rotate_to_next_pivot(windmill)
         flashes,run_time=self.rotate_to_next_pivot(windmill)
